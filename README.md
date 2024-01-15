@@ -1,6 +1,6 @@
 # vue-project
 
-This template should help get you started developing with Vue 3 in Vite.
+The website is on vue.js composition API with a list of trips in Samara.
 
 ## Recommended IDE Setup
 
