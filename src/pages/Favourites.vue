@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import axios from 'axios'
 import CardList from '../components/CardList.vue'
 
 const favourites = ref([])
+const { cart } = inject('cart')
 
 onMounted(async () => {
   try {

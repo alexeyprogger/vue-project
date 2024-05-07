@@ -10,7 +10,7 @@ const emit = defineEmits(['addToFavourite', 'addToCart'])
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-5" v-auto-animate>
+  <div class="grid grid-cols-2 gap-5" v-auto-animate >
     <Card
       v-for="item in items"
       :key="item.id"
@@ -22,6 +22,8 @@ const emit = defineEmits(['addToFavourite', 'addToCart'])
       :isFavourite="item.isFavourite"
       :onClickAdd="isFav ? null : () => emit('addToCart', item)"
       :onClickFavourite="isFav ? null : () => emit('addToFavourite', item)"
-    />
-  </div>
+      />
+    </div>
+    <!-- # TODO: onСlick -> вызов функции с модальным окном  -->
+    <!-- # TODO:   -->
 </template>

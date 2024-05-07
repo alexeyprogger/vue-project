@@ -14,22 +14,27 @@ const filters = reactive({
 })
 
 const onClickAddPlus = (item) => {
+  console.log(!item.isAdded ? 'Добавлен': 'Не добавлен')
   if (!item.isAdded) {
     addToCart(item)
     item.isAdded = true
   } else {
+    console.log('Из Home: item.isAdded = ', item.isAdded)
     removeFromCart(item)
   }
 }
 const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
+  console.log(filters.sortBy)
 }
 const onChangeSearchInput = debounce((event) => {
   filters.searchQuery = event.target.value
 }, 800)
+
 const addToFavourite = async (item) => {
   try {
     item.isFavourite = !item.isFavourite
+    console.log(item.isFavourite)
     if (item.isFavourite) {
       const obj = {
         item_id: item.id
@@ -90,8 +95,6 @@ const fetchItems = async () => {
 }
 
 onMounted(async () => {
-  const localCart = localStorage.getItem('cart')
-  cart.value = localCart ? JSON.parse(localCart) : []
   await fetchItems()
   await fetchFavourites()
 
@@ -108,7 +111,10 @@ watch(cart, () => {
   }))
 })
 
-watch(filters, fetchItems)
+watch(filters, ()=> {
+  fetchItems()
+  fetchFavourites()
+})
 </script>
 <template>
   <div class="flex justify-between items-center">
@@ -116,7 +122,7 @@ watch(filters, fetchItems)
 
     <div class="flex gap-4 max-md:flex max-lg:flex-col">
       <select @change="onChangeSelect" class="py-2 px-3 border rounded-md outline-none">
-        <option value="name">По названию</option>
+        <option value="title">По названию</option>
         <option value="price">Дешёвые</option>
         <option value="-price">Дорогие</option>
       </select>

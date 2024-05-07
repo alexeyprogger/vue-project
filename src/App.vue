@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, provide, computed } from 'vue'
+import { ref, watch, provide, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
 import Drawer from './components/Drawer.vue'
 
@@ -17,10 +17,12 @@ const openDrawer = () => {
 
 const addToCart = (item) => {
   cart.value.push(item)
-  item.isAdded = true
 }
 const removeFromCart = (item) => {
-  cart.value.splice(cart.value.indexOf(item), 1)
+  console.log(cart.value.map(e => e.id).indexOf(item.id));
+  console.log('С помощью find(): ', cart.value.find(el => el.id === item.id)) // find вернёт объект (не число)
+  console.log('С помощью map(): ', cart.value.map(e => e.id).indexOf(item.id)) // т.о. вернём число для splice
+  let b = cart.value.splice(cart.value.map(e => e.id).indexOf(item.id), 1)
   item.isAdded = false
 }
 
@@ -31,6 +33,11 @@ watch(
   },
   { deep: true }
 )
+
+onMounted(async ()=>{
+  const localCart = localStorage.getItem('cart')
+  cart.value = localCart ? JSON.parse(localCart) : []
+})
 
 provide('cart', {
   closeDrawer,
